@@ -16,9 +16,9 @@ const config = {
   password: `${process.env.TYPEORM_PASSWORD}`,
   database: `${process.env.TYPEORM_DATABASE}`,
   entities: [Player, Reward, Coupon, PlayerCoupon],
-  migrations: process.env.typeorm === 'true' ? ['migrations/*.ts'] : [],
+  migrations: ['migrations/*.ts'],
   autoLoadEntities: true,
-  synchronize: false,
+  synchronize: true,
 };
 
 export default registerAs('typeorm', () => config);
