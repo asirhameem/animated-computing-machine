@@ -11,5 +11,6 @@ import {RewardModule} from "../reward/reward.module";
   imports: [TypeOrmModule.forFeature([Coupon]), PlayerModule, RewardModule],
   controllers: [CouponController],
   providers: [CouponService],
+  exports: [CouponService],
 })
 export class CouponModule {}
