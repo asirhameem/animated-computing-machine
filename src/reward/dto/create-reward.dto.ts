@@ -5,10 +5,10 @@ export class CreateRewardDto {
   @IsNotEmpty()
   @Length(3, 20)
   readonly name : string;
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   readonly startDate: string;
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   readonly endDate: string;
   @IsNumber()
