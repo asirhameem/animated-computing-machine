@@ -22,7 +22,6 @@ export class CouponService {
   async create(createCouponDto: CreateCouponDto) {
     try {
       const reward = await this.rewardService.findOne(createCouponDto.rewardId);
-      console.log(reward);
       const coupon = await this.couponRepository.create({value: createCouponDto.value, Reward: reward});
       return this.couponRepository.save(coupon);
     } catch (error) {

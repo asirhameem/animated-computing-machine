@@ -10,7 +10,8 @@ export class RewardService {
   constructor(@InjectRepository(Reward) private readonly rewardRepository :Repository<Reward>) {  }
   create(createRewardDto: CreateRewardDto) {
     try {
-      return this.rewardRepository.insert(createRewardDto);
+      const reward = this.rewardRepository.create(createRewardDto);
+      return this.rewardRepository.save(reward);
     } catch (err) {
       throw new InternalServerErrorException(err);
     }

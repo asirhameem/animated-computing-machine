@@ -13,7 +13,8 @@ export class PlayerService {
 
   createPlayer(player: CreatePlayerDto): Promise<any> {
     try {
-      return this.playerRepository.insert({name: player.name});
+      const newPlayer = this.playerRepository.create(player);
+      return this.playerRepository.save(newPlayer);
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
