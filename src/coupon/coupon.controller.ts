@@ -14,10 +14,10 @@ export class CouponController {
     return this.couponService.create(createCouponDto);
   }
 
-  @Post("redeem")
-  couponRedeem(@Body() couponRedeem: RedeemCouponDto) {
-    return this.couponService.redeem(couponRedeem);
-  }
+  // @Post("redeem")
+  // couponRedeem(@Body() couponRedeem: RedeemCouponDto) {
+  //   return this.couponService.redeem(couponRedeem);
+  // }
   @Get()
   findAll() {
     return this.couponService.findAll();

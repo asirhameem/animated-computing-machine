@@ -30,11 +30,17 @@ export class CouponService {
     }
   }
 
-  async redeem(redeemCoupon: RedeemCouponDto) {
+  totalRedeemed(rewardId: number) {
     try {
-      const player = await this.playerService.getPlayerById(redeemCoupon.playerId);
-      const reward = await this.rewardService.findOne(redeemCoupon.rewardId);
+      return this.couponRepository.query(`select * from coupon inner join player.reward r on coupon.rewardId = r.id inner join player.player_coupon pc on coupon.id = pc.couponId where r.id = 1`);
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
 
+  totalRedeemedToday(rewardId: number) {
+    try {
+      return this.couponRepository.query(`select * from coupon inner join player.reward r on coupon.rewardId = r.id inner join player.player_coupon pc on coupon.id = pc.couponId where r.id = ${rewardId} and pc.redeemedAt like concat(curdate(),'%')`);
     } catch (err) {
       throw new InternalServerErrorException(err);
     }

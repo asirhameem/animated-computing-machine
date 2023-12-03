@@ -57,18 +57,10 @@ export class PlayerController {
   async createPlayer(@Body() createPlayer : CreatePlayerDto) {
     try {
       const insertOp = await this.playerService.createPlayer(createPlayer);
-      if (insertOp.raw.affectedRows <= 0) {
-        return {
-          statusCode: 400,
-          message: 'Can not create player.',
-        };
-      }
       return {
         statusCode: 201,
         message: 'Player created successfully',
-        data: {
-          id: insertOp.raw.insertId,
-        },
+        data: insertOp,
       };
     } catch (err) {
       throw new InternalServerErrorException();

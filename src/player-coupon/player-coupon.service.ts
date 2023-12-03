@@ -26,11 +26,20 @@ export class PlayerCouponService {
       const newPlayerCoupon = await this.playerCouponRepository.create({
         redeemedAt: new Date(),
         player: playerInfo,
-        coupon: coupon
+        coupon: coupon[0],
       });
+      console.log(newPlayerCoupon);
       return this.playerCouponRepository.save(newPlayerCoupon);
     } catch (err) {
       throw new InternalServerErrorException(err);
+    }
+  }
+
+  getByCouponId (id: number) {
+    try {
+      return this.playerCouponRepository.query(`select * from player_coupon where couponId = ${id}`)
+    } catch (e) {
+      throw new InternalServerErrorException(e);
     }
   }
 
