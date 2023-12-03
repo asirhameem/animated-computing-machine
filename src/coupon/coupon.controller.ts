@@ -24,8 +24,8 @@ export class CouponController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.couponService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.couponService.getById(id);
   }
 
   @Patch(':id')

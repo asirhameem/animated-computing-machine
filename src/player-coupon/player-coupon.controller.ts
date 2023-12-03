@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe} from '@nestjs/common';
 import { PlayerCouponService } from './player-coupon.service';
 import { CreatePlayerCouponDto } from './dto/create-player-coupon.dto';
 import { UpdatePlayerCouponDto } from './dto/update-player-coupon.dto';
 
 @Controller('player-coupon')
+@UsePipes(ValidationPipe)
 export class PlayerCouponController {
   constructor(private readonly playerCouponService: PlayerCouponService) {}
 

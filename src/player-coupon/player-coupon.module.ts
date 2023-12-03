@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {forwardRef, Module} from '@nestjs/common';
 import { PlayerCouponService } from './player-coupon.service';
 import { PlayerCouponController } from './player-coupon.controller';
 import {TypeOrmModule} from "@nestjs/typeorm";
@@ -7,7 +7,7 @@ import {PlayerModule} from "../player/player.module";
 import {CouponModule} from "../coupon/coupon.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PlayerCoupon]), PlayerModule, CouponModule],
+  imports: [TypeOrmModule.forFeature([PlayerCoupon]), PlayerModule, forwardRef(() => CouponModule)],
   controllers: [PlayerCouponController],
   providers: [PlayerCouponService],
   exports: [PlayerCouponService]

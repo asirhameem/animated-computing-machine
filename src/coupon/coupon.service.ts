@@ -9,6 +9,7 @@ import {Player} from "../entities/Player";
 import {Reward} from "../entities/Reward";
 import {PlayerService} from "../player/player.service";
 import {RewardService} from "../reward/reward.service";
+import {PlayerCouponService} from "../player-coupon/player-coupon.service";
 
 @Injectable()
 export class CouponService {
@@ -33,18 +34,39 @@ export class CouponService {
     try {
       const player = await this.playerService.getPlayerById(redeemCoupon.playerId);
       const reward = await this.rewardService.findOne(redeemCoupon.rewardId);
-      console.log(player, reward);
+
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
   }
 
   findAll() {
-    return `This action returns all coupon`;
+    return this.couponRepository.query("select * from coupon");
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} coupon`;
+  getById(id: number) {
+    try {
+      return this.couponRepository.query(`select * from coupon where id = ${id}`);
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
+  findByCouponId(id: number) {
+    try {
+      return this.couponRepository.findBy({id: id});
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
+  getRewardUsedToday (couponId: number) {
+    try {
+      return
+    } catch (e) {
+       throw new InternalServerErrorException(e);
+    }
+
   }
 
   update(id: number, updateCouponDto: UpdateCouponDto) {

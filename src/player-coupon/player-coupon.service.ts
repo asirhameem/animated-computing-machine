@@ -1,11 +1,13 @@
 import {Injectable, InternalServerErrorException} from '@nestjs/common';
-import { CreatePlayerCouponDto } from './dto/create-player-coupon.dto';
-import { UpdatePlayerCouponDto } from './dto/update-player-coupon.dto';
+import {CreatePlayerCouponDto} from './dto/create-player-coupon.dto';
+import {UpdatePlayerCouponDto} from './dto/update-player-coupon.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {PlayerService} from "../player/player.service";
 import {PlayerCoupon} from "../entities/PlayerCoupon";
 import {CouponService} from "../coupon/coupon.service";
+import {Player} from "../entities/Player";
+import {Coupon} from "../entities/Coupon";
 
 @Injectable()
 export class PlayerCouponService {
@@ -17,14 +19,19 @@ export class PlayerCouponService {
   ) {
   }
 
-  create(createPlayerCouponDto: CreatePlayerCouponDto) {
+  async create(createPlayerCouponDto: CreatePlayerCouponDto) {
     try {
-      const newPlayerCoupon = this.playerCouponRepository.create(createPlayerCouponDto);
+      const playerInfo = await this.playerService.getPlayerById(createPlayerCouponDto.playerId);
+      const coupon = await this.couponService.getById(createPlayerCouponDto.couponId);
+      const newPlayerCoupon = await this.playerCouponRepository.create({
+        redeemedAt: new Date(),
+        player: playerInfo,
+        coupon: coupon
+      });
       return this.playerCouponRepository.save(newPlayerCoupon);
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
-
   }
 
   findAll() {
