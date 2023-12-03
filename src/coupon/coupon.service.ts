@@ -10,7 +10,7 @@ export class CouponService {
   constructor(@InjectRepository(Coupon) private readonly couponRepository :Repository<Coupon>) {  }
   create(createCouponDto: CreateCouponDto) {
     try {
-      return '';
+      return this.couponRepository.insert(createCouponDto);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
