@@ -25,7 +25,11 @@ export class RewardService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} reward`;
+    try {
+      return this.rewardRepository.findOneBy({id: id});
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
   update(id: number, updateRewardDto: UpdateRewardDto) {

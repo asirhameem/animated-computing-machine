@@ -2,6 +2,7 @@ import {Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationP
 import { CouponService } from './coupon.service';
 import { CreateCouponDto } from './dto/create-coupon.dto';
 import { UpdateCouponDto } from './dto/update-coupon.dto';
+import {RedeemCouponDto} from "./dto/redeem-coupon.dto";
 
 @Controller('coupon')
 @UsePipes(ValidationPipe)
@@ -13,6 +14,10 @@ export class CouponController {
     return this.couponService.create(createCouponDto);
   }
 
+  @Post("redeem")
+  couponRedeem(@Body() couponRedeem: RedeemCouponDto) {
+    return this.couponService.redeem(couponRedeem);
+  }
   @Get()
   findAll() {
     return this.couponService.findAll();
