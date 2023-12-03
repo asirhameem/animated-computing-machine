@@ -19,9 +19,12 @@ export class CouponService {
   ) {
   }
 
-  create(createCouponDto: CreateCouponDto) {
+  async create(createCouponDto: CreateCouponDto) {
     try {
-      return this.couponRepository.insert(createCouponDto);
+      const reward = await this.rewardService.findOne(createCouponDto.rewardId);
+      console.log(reward);
+      const coupon = await this.couponRepository.create({value: createCouponDto.value, Reward: reward});
+      return this.couponRepository.save(coupon);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
