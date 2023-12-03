@@ -15,7 +15,7 @@ import {CreatePlayerDto} from "./dto/create-player.dto";
 @UsePipes(ValidationPipe)
 export class PlayerController {
 
-  constructor(private playerService: PlayerService) {
+  constructor(private readonly playerService: PlayerService) {
   }
 
   @Get()
