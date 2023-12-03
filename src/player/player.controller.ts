@@ -1,7 +1,18 @@
-import {Body, Controller, Get, InternalServerErrorException, NotFoundException, Param, Post} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  InternalServerErrorException,
+  Param,
+  Post,
+  UsePipes,
+  ValidationPipe
+} from '@nestjs/common';
 import {PlayerService} from "./player.service";
+import {CreatePlayerDto} from "./dto/create-player.dto";
 
 @Controller('player')
+@UsePipes(ValidationPipe)
 export class PlayerController {
 
   constructor(private playerService: PlayerService) {
@@ -12,9 +23,17 @@ export class PlayerController {
     try {
       const data = await this.playerService.getAllPlayers();
       if (!data?.length) {
-        return new NotFoundException();
+        return {
+          statusCode: 400,
+          message: 'No players found',
+          data: data,
+        };
       }
-      return data;
+      return {
+        statusCode: 200,
+        message: 'Players fetched successfully',
+        data: data,
+      };
     } catch (err) {
       throw new InternalServerErrorException();
     }
@@ -35,9 +54,9 @@ export class PlayerController {
   }
 
   @Post()
-  async createPlayer(@Body() name: string) {
+  async createPlayer(@Body() createPlayer : CreatePlayerDto) {
     try {
-      const insertOp = await this.playerService.createPlayer(name);
+      const insertOp = await this.playerService.createPlayer(createPlayer);
       if (insertOp.raw.affectedRows <= 0) {
         return {
           statusCode: 400,
