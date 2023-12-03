@@ -1,15 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe} from '@nestjs/common';
 import { RewardService } from './reward.service';
 import { CreateRewardDto } from './dto/create-reward.dto';
 import { UpdateRewardDto } from './dto/update-reward.dto';
 
 @Controller('reward')
+@UsePipes(ValidationPipe)
 export class RewardController {
   constructor(private readonly rewardService: RewardService) {}
 
   @Post()
-  create(@Body() createRewardDto: CreateRewardDto) {
-    return this.rewardService.create(createRewardDto);
+  async create(@Body() createRewardDto: CreateRewardDto) {
+    const insertOp = await this.rewardService.create(createRewardDto);
+    return {
+      statusCode: 201,
+      message: 'Reward added successfully',
+      data: createRewardDto,
+    };
   }
 
   @Get()
