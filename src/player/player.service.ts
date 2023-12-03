@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, InternalServerErrorException} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Player} from "../entities/Player";
 import {Repository} from "typeorm";
@@ -8,18 +8,30 @@ import {CreatePlayerDto} from "./dto/create-player.dto";
 export class PlayerService {
   constructor(
     @InjectRepository(Player)
-    private playerRepository: Repository<Player>,
+    private readonly playerRepository: Repository<Player>,
   ) {}
 
   createPlayer(player: CreatePlayerDto): Promise<any> {
-    return this.playerRepository.insert({name: player.name});
+    try {
+      return this.playerRepository.insert({name: player.name});
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
   getPlayerById(id: number) : Promise<Player>{
-    return this.playerRepository.findOneBy({id: id});
+    try {
+      return this.playerRepository.findOneBy({id: id});
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
   getAllPlayers() : Promise<Player[]> {
-    return this.playerRepository.query('select * from player');
+    try {
+      return this.playerRepository.query('select * from player');
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 }

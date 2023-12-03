@@ -1,11 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, InternalServerErrorException} from '@nestjs/common';
 import { CreateCouponDto } from './dto/create-coupon.dto';
 import { UpdateCouponDto } from './dto/update-coupon.dto';
+import {Repository} from "typeorm";
+import {Coupon} from "../entities/Coupon";
+import {InjectRepository} from "@nestjs/typeorm";
 
 @Injectable()
 export class CouponService {
+  constructor(@InjectRepository(Coupon) private readonly couponRepository :Repository<Coupon>) {  }
   create(createCouponDto: CreateCouponDto) {
-    return 'This action adds a new coupon';
+    try {
+      return '';
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   findAll() {
